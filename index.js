@@ -1,10 +1,45 @@
 const express = require('express');
- const app = express();
- const PORT = 8000;
- const cors = require('cors');
- const pool = require('./db');
+const app = express();
+const PORT = 8000;
+const cors = require('cors');
+const pool = require('./db');
 const Joi = require('joi')
 const bodyParser = require('body-parser');
+
+
+
+const path = require('path');
+var pathObjt = path.parse(__filename)
+console.log(pathObjt)
+
+
+const os =require('os')
+var totalMemory = os.totalmem();
+var freeMem = os.freemem();
+console.log('Total memory : ' + totalMemory)
+console.log('Free memory : ' + freeMem)
+
+
+const fs =require('fs')
+// const files = fs.readdirSync('./') not recommanded using Sync beacause it's blocking process
+//console.log('the files is this directory are : ' + files)
+const filesas =fs.readdir('./',(err,files)=>{    // fs.readdir('.dqsd', ...) will return err
+    if(err) console.log('Error : ' + err);
+    else console.log('Files : ' + files)
+})
+
+
+const events = require('events')
+var myEmitter = new events.EventEmitter();
+
+myEmitter.on('someEvent',(mssg)=>{
+    console.log("le message de levent est : " + mssg )
+})
+//  myEmitter.emit('someEvent',"lemmit est déclanché sous le message est : ")
+
+
+
+
 
 const courses = [
     { id:1 , name: "course1"} ,
@@ -24,6 +59,7 @@ app.use(bodyParser.json());
 ///////////////    READ  \\\\\\\\\\\\\\\\\\\\\\\\\
 app.get("/hello",(req,res)=>{
     const userAge = req.query['age']
+    myEmitter.emit('someEvent',"lemmit est déclanché sous le message est : ")
     res.send("hello world " + userAge)
 })
 
